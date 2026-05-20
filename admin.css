@@ -1,0 +1,136 @@
+/* ============================================================
+   NuWatch Admin - Styles
+   ============================================================ */
+
+:root {
+  --nu-primary:      #820AD1;
+  --nu-primary-hover:#9824E6;
+  --nu-primary-light:#F4E5FD;
+  --nu-dark:         #111111;
+  --nu-gray-100:     #F5F5F7;
+  --nu-gray-200:     #EBEBF0;
+  --nu-gray-400:     #8E8E93;
+  --nu-gray-600:     #3A3A3C;
+  --nu-white:        #FFFFFF;
+  --font-sans:       'Inter', sans-serif;
+  --transition:      0.25s ease;
+  --shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-md:       0 8px 24px rgba(0, 0, 0, 0.08);
+  --radius-md:       12px;
+  --radius-pill:     9999px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); background: var(--nu-gray-100); color: var(--nu-dark); }
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; border: none; font-family: inherit; }
+
+/* LOGIN SCREEN */
+.login-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.login-box {
+  background: var(--nu-white);
+  padding: 3rem;
+  border-radius: 24px;
+  box-shadow: var(--shadow-md);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.login-logo { font-size: 1.5rem; font-weight: 600; margin-bottom: 0.5rem; }
+.login-logo strong { color: var(--nu-primary); }
+.login-desc { color: var(--nu-gray-600); font-size: 0.95rem; margin-bottom: 2rem; }
+
+.form-group { text-align: left; margin-bottom: 1.25rem; }
+.form-group label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--nu-gray-600); }
+.form-group input { 
+  width: 100%; padding: 0.85rem 1rem; border: 1px solid var(--nu-gray-200); 
+  border-radius: var(--radius-md); font-family: inherit; font-size: 0.95rem; 
+}
+.form-group input:focus { border-color: var(--nu-primary); outline: none; box-shadow: 0 0 0 3px var(--nu-primary-light); }
+
+.btn-primary {
+  width: 100%; padding: 0.85rem; background: var(--nu-primary); color: var(--nu-white);
+  font-weight: 700; border-radius: var(--radius-md); transition: var(--transition);
+}
+.btn-primary:hover { background: var(--nu-primary-hover); transform: translateY(-1px); }
+
+.error-msg { color: #FF3B30; font-size: 0.85rem; font-weight: 600; margin-top: 1rem; min-height: 20px; }
+.back-link { display: inline-block; margin-top: 1.5rem; font-size: 0.85rem; color: var(--nu-gray-400); }
+.back-link:hover { color: var(--nu-primary); }
+
+/* DASHBOARD LAYOUT */
+.dashboard { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 260px; background: var(--nu-white); border-right: 1px solid var(--nu-gray-200);
+  display: flex; flex-direction: column; padding: 2rem;
+}
+.sidebar-logo { font-size: 1.25rem; font-weight: 600; margin-bottom: 3rem; }
+.sidebar-logo strong { color: var(--nu-primary); }
+
+.sidebar-nav { display: flex; flex-direction: column; gap: 0.5rem; flex: 1; }
+.sidebar-nav a {
+  padding: 0.75rem 1rem; border-radius: var(--radius-md); font-weight: 600;
+  color: var(--nu-gray-600); transition: var(--transition);
+}
+.sidebar-nav a:hover { background: var(--nu-gray-100); color: var(--nu-dark); }
+.sidebar-nav a.active { background: var(--nu-primary-light); color: var(--nu-primary); }
+
+.btn-logout {
+  padding: 0.75rem; background: var(--nu-gray-100); color: var(--nu-dark);
+  font-weight: 600; border-radius: var(--radius-md); transition: var(--transition);
+}
+.btn-logout:hover { background: #FF3B30; color: white; }
+
+.main-content { flex: 1; padding: 2rem 3rem; overflow-y: auto; }
+.main-header { margin-bottom: 2rem; }
+.main-header h1 { font-size: 1.75rem; font-weight: 800; color: var(--nu-dark); }
+
+/* STATS */
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
+.stat-card {
+  background: var(--nu-white); padding: 1.5rem; border-radius: 16px; box-shadow: var(--shadow-sm);
+}
+.stat-card h3 { font-size: 0.9rem; color: var(--nu-gray-600); font-weight: 600; margin-bottom: 0.5rem; }
+.stat-value { font-size: 2.5rem; font-weight: 800; color: var(--nu-primary); }
+
+/* PRODUCTS */
+.section-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+.section-top h2 { font-size: 1.25rem; font-weight: 700; }
+.btn-primary { width: auto; padding: 0.6rem 1.2rem; }
+
+.table-wrap { background: var(--nu-white); border-radius: 16px; box-shadow: var(--shadow-sm); overflow: hidden; }
+.admin-table { width: 100%; border-collapse: collapse; text-align: left; }
+.admin-table th, .admin-table td { padding: 1rem 1.5rem; border-bottom: 1px solid var(--nu-gray-100); }
+.admin-table th { background: var(--nu-gray-100); font-size: 0.85rem; text-transform: uppercase; color: var(--nu-gray-600); }
+.admin-table img { width: 40px; height: 40px; object-fit: contain; border-radius: 8px; background: var(--nu-gray-100); }
+
+.action-btn { background: none; border: none; font-size: 0.85rem; font-weight: 600; cursor: pointer; padding: 0.25rem 0.5rem; border-radius: 4px;}
+.edit-btn { color: var(--nu-primary); }
+.edit-btn:hover { background: var(--nu-primary-light); }
+.del-btn { color: #FF3B30; }
+.del-btn:hover { background: #FFEBEA; }
+
+/* MODAL */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center; z-index: 4000;
+  opacity: 0; pointer-events: none; transition: opacity var(--transition);
+}
+.modal-overlay.show { opacity: 1; pointer-events: auto; }
+.modal-content {
+  background: var(--nu-white); padding: 2rem; border-radius: 24px; width: 100%; max-width: 500px;
+  box-shadow: var(--shadow-md); transform: translateY(20px); transition: transform var(--transition);
+}
+.modal-overlay.show .modal-content { transform: translateY(0); }
+.modal-content h2 { margin-bottom: 1.5rem; }
+.modal-actions { display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem; }
+.btn-ghost { padding: 0.6rem 1.2rem; background: var(--nu-gray-100); border-radius: var(--radius-md); font-weight: 600; }
+.btn-ghost:hover { background: var(--nu-gray-200); }
