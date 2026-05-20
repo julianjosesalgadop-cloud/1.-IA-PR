@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NuWatch – Smartwatches Premium | Tu tiempo, reinventado</title>
+  <meta name="description" content="Descubre la colección más avanzada de smartwatches. Tecnología inteligente con estilo Nubank. GPS, Salud 360°, NFC y más." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#" class="nav-logo" id="nav-logo-link">
+        <span class="logo-icon">⌚</span>
+        <span class="logo-text">Nu<strong>Watch</strong></span>
+      </a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#catalogo" class="nav-link">Catálogo</a></li>
+        <li><a href="#servicios" class="nav-link">Servicios</a></li>
+        <li><a href="#comparativa" class="nav-link">Comparativa</a></li>
+        <li><a href="#testimonios" class="nav-link">Testimonios</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="#catalogo" class="btn-nav" id="btn-explorar">Explorar</a>
+        <button class="hamburger" id="hamburger" aria-label="Abrir menú">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="hero">
+    <div class="hero-bg-orb orb-1"></div>
+    <div class="hero-bg-orb orb-2"></div>
+    <div class="hero-bg-orb orb-3"></div>
+    <div class="hero-content">
+      <div class="hero-badge" id="hero-badge">
+        <span class="badge-dot"></span>
+        Nuevo lanzamiento 2026
+      </div>
+      <h1 class="hero-title">
+        Tu tiempo,<br />
+        <span class="gradient-text">reinventado.</span>
+      </h1>
+      <p class="hero-subtitle">
+        Descubre la colección más avanzada de smartwatches.<br />
+        Tecnología inteligente que se adapta a tu vida.
+      </p>
+      <div class="hero-ctas">
+        <a href="#catalogo" class="btn-primary" id="btn-ver-catalogo">
+          <span>Ver catálogo</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <a href="#servicios" class="btn-ghost" id="btn-conocer-mas">Conocer más</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-number" data-target="50">50K+</span>
+          <span class="stat-label">Clientes activos</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number">4.9★</span>
+          <span class="stat-label">Calificación</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number">24/7</span>
+          <span class="stat-label">Soporte</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="watch-glow"></div>
+      <img src="img_hero.png" alt="NuWatch Hero Smartwatch" class="hero-watch-img" id="hero-watch-img" />
+      <div class="floating-badge fb-1">
+        <span class="fb-icon">❤️</span>
+        <div><strong>98 bpm</strong><small>Frecuencia cardíaca</small></div>
+      </div>
+      <div class="floating-badge fb-2">
+        <span class="fb-icon">🏃</span>
+        <div><strong>8,432</strong><small>Pasos hoy</small></div>
+      </div>
+      <div class="floating-badge fb-3">
+        <span class="fb-icon">🔋</span>
+        <div><strong>87%</strong><small>Batería</small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TICKER ===== -->
+  <div class="ticker-wrapper" aria-hidden="true">
+    <div class="ticker-track">
+      <span>GPS Integrado</span><span class="dot">•</span>
+      <span>Pagos NFC</span><span class="dot">•</span>
+      <span>Monitoreo de Salud 24/7</span><span class="dot">•</span>
+      <span>Resistente al Agua IP68</span><span class="dot">•</span>
+      <span>Batería 7 días</span><span class="dot">•</span>
+      <span>IA Predictiva</span><span class="dot">•</span>
+      <span>Notificaciones Inteligentes</span><span class="dot">•</span>
+      <span>GPS Integrado</span><span class="dot">•</span>
+      <span>Pagos NFC</span><span class="dot">•</span>
+      <span>Monitoreo de Salud 24/7</span><span class="dot">•</span>
+      <span>Resistente al Agua IP68</span><span class="dot">•</span>
+      <span>Batería 7 días</span><span class="dot">•</span>
+      <span>IA Predictiva</span><span class="dot">•</span>
+      <span>Notificaciones Inteligentes</span><span class="dot">•</span>
+    </div>
+  </div>
+
+  <!-- ===== CATÁLOGO ===== -->
+  <section class="catalog" id="catalogo">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Catálogo 2026</span>
+        <h2 class="section-title">Encuentra tu <span class="gradient-text">smartwatch ideal</span></h2>
+        <p class="section-desc">Cada modelo diseñado para un estilo de vida diferente. ¿Cuál es el tuyo?</p>
+      </div>
+
+      <div class="filter-pills" id="filter-pills">
+        <button class="pill active" data-filter="all" id="pill-all">Todos</button>
+        <button class="pill" data-filter="sport" id="pill-sport">Sport</button>
+        <button class="pill" data-filter="luxury" id="pill-luxury">Premium</button>
+        <button class="pill" data-filter="essential" id="pill-essential">Esencial</button>
+      </div>
+
+      <div class="product-grid" id="product-grid">
+        <!-- Card 1: NuWatch Pro -->
+        <article class="product-card" data-category="luxury" id="card-nuwatch-pro">
+          <div class="card-badge-top">Más vendido</div>
+          <div class="card-image-wrap">
+            <img src="img_pro.png" alt="NuWatch Pro" class="card-img" />
+            <div class="card-glow"></div>
+          </div>
+          <div class="card-body">
+            <div class="card-category">Premium</div>
+            <h3 class="card-name">NuWatch Pro</h3>
+            <p class="card-desc">Pantalla AMOLED 2.0" · GPS dual banda · 14 días de batería</p>
+            <div class="card-features">
+              <span class="feat-tag">❤️ ECG</span>
+              <span class="feat-tag">💳 NFC</span>
+              <span class="feat-tag">🏊 IP68</span>
+            </div>
+            <div class="card-footer">
+              <div class="card-price">
+                <span class="price-old">$8,999</span>
+                <span class="price-now">$6,499</span>
+              </div>
+              <button class="btn-card" id="btn-pro-buy" data-name="NuWatch Pro">Agregar</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 2: NuWatch Ultra Sport -->
+        <article class="product-card featured" data-category="sport" id="card-nuwatch-ultra">
+          <div class="card-badge-top highlight">Nuevo</div>
+          <div class="card-image-wrap">
+            <img src="img_sport.png" alt="NuWatch Ultra Sport" class="card-img" />
+            <div class="card-glow glow-purple"></div>
+          </div>
+          <div class="card-body">
+            <div class="card-category">Sport</div>
+            <h3 class="card-name">NuWatch Ultra Sport</h3>
+            <p class="card-desc">GPS multibanda · Oxímetro avanzado · Batería 21 días</p>
+            <div class="card-features">
+              <span class="feat-tag">🏃 GPS</span>
+              <span class="feat-tag">💧 SpO2</span>
+              <span class="feat-tag">🌡️ Temp.</span>
+            </div>
+            <div class="card-footer">
+              <div class="card-price">
+                <span class="price-old">$12,499</span>
+                <span class="price-now">$9,799</span>
+              </div>
+              <button class="btn-card" id="btn-ultra-buy" data-name="NuWatch Ultra Sport">Agregar</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 3: NuWatch Elite -->
+        <article class="product-card" data-category="luxury" id="card-nuwatch-elite">
+          <div class="card-image-wrap">
+            <img src="img_elite.png" alt="NuWatch Elite" class="card-img" />
+            <div class="card-glow"></div>
+          </div>
+          <div class="card-body">
+            <div class="card-category">Premium</div>
+            <h3 class="card-name">NuWatch Elite</h3>
+            <p class="card-desc">Titanio grado 5 · Cristal de zafiro · Carga solar</p>
+            <div class="card-features">
+              <span class="feat-tag">☀️ Solar</span>
+              <span class="feat-tag">💳 NFC</span>
+              <span class="feat-tag">🔊 Altavoz</span>
+            </div>
+            <div class="card-footer">
+              <div class="card-price">
+                <span class="price-old">$18,999</span>
+                <span class="price-now">$15,299</span>
+              </div>
+              <button class="btn-card" id="btn-elite-buy" data-name="NuWatch Elite">Agregar</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 4: NuWatch Lite -->
+        <article class="product-card" data-category="essential" id="card-nuwatch-lite">
+          <div class="card-image-wrap">
+            <img src="img_hero.png" alt="NuWatch Lite" class="card-img" />
+            <div class="card-glow glow-pink"></div>
+          </div>
+          <div class="card-body">
+            <div class="card-category">Esencial</div>
+            <h3 class="card-name">NuWatch Lite</h3>
+            <p class="card-desc">Pantalla OLED 1.4" · Salud básica · 7 días de batería</p>
+            <div class="card-features">
+              <span class="feat-tag">❤️ FC</span>
+              <span class="feat-tag">😴 Sueño</span>
+              <span class="feat-tag">📱 App</span>
+            </div>
+            <div class="card-footer">
+              <div class="card-price">
+                <span class="price-now">$2,999</span>
+              </div>
+              <button class="btn-card" id="btn-lite-buy" data-name="NuWatch Lite">Agregar</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 5: NuWatch Runner -->
+        <article class="product-card" data-category="sport" id="card-nuwatch-runner">
+          <div class="card-image-wrap">
+            <img src="img_sport.png" alt="NuWatch Runner" class="card-img" />
+            <div class="card-glow glow-green"></div>
+          </div>
+          <div class="card-body">
+            <div class="card-category">Sport</div>
+            <h3 class="card-name">NuWatch Runner</h3>
+            <p class="card-desc">GPS integrado · VO2 Max · Análisis de carrera IA</p>
+            <div class="card-features">
+              <span class="feat-tag">🏃 GPS</span>
+              <span class="feat-tag">🤖 IA</span>
+              <span class="feat-tag">💧 IP68</span>
+            </div>
+            <div class="card-footer">
+              <div class="card-price">
+                <span class="price-old">$5,999</span>
+                <span class="price-now">$4,299</span>
+              </div>
+              <button class="btn-card" id="btn-runner-buy" data-name="NuWatch Runner">Agregar</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 6: NuWatch Kids -->
+        <article class="product-card" data-category="essential" id="card-nuwatch-kids">
+          <div class="card-badge-top">Oferta</div>
+          <div class="card-image-wrap">
+            <img src="img_hero.png" alt="NuWatch Kids" class="card-img" />
+            <div class="card-glow glow-blue"></div>
+          </div>
+          <div class="card-body">
+            <div class="card-category">Esencial</div>
+            <h3 class="card-name">NuWatch Kids</h3>
+            <p class="card-desc">GPS familiar · Llamadas SOS · Control parental</p>
+            <div class="card-features">
+              <span class="feat-tag">📍 GPS</span>
+              <span class="feat-tag">📞 Llamadas</span>
+              <span class="feat-tag">🛡️ SOS</span>
+            </div>
+            <div class="card-footer">
+              <div class="card-price">
+                <span class="price-old">$3,499</span>
+                <span class="price-now">$1,999</span>
+              </div>
+              <button class="btn-card" id="btn-kids-buy" data-name="NuWatch Kids">Agregar</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SERVICIOS ===== -->
+  <section class="services" id="servicios">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">¿Por qué NuWatch?</span>
+        <h2 class="section-title">Más que un reloj,<br /><span class="gradient-text">un ecosistema</span></h2>
+      </div>
+      <div class="services-grid">
+        <div class="service-card" id="svc-salud">
+          <div class="service-icon">🫀</div>
+          <h3>Monitoreo de Salud 360°</h3>
+          <p>Frecuencia cardíaca, SpO2, temperatura corporal, ECG y análisis del sueño en tiempo real.</p>
+          <div class="service-arrow">→</div>
+        </div>
+        <div class="service-card" id="svc-pagos">
+          <div class="service-icon">💳</div>
+          <h3>Pagos sin fricción</h3>
+          <p>NFC integrado compatible con todas las principales plataformas de pago digitales del mercado.</p>
+          <div class="service-arrow">→</div>
+        </div>
+        <div class="service-card" id="svc-gps">
+          <div class="service-icon">🌍</div>
+          <h3>GPS Multibanda Avanzado</h3>
+          <p>Ubicación precisa al centímetro. Perfecto para rutas outdoor, trail running y navegación.</p>
+          <div class="service-arrow">→</div>
+        </div>
+        <div class="service-card" id="svc-ia">
+          <div class="service-icon">🤖</div>
+          <h3>Inteligencia Artificial</h3>
+          <p>Algoritmos de IA que aprenden tus hábitos y te ofrecen recomendaciones personalizadas.</p>
+          <div class="service-arrow">→</div>
+        </div>
+        <div class="service-card" id="svc-bateria">
+          <div class="service-icon">⚡</div>
+          <h3>Batería Ultra Duración</h3>
+          <p>Hasta 21 días de autonomía. Carga rápida magnética en solo 60 minutos al 100%.</p>
+          <div class="service-arrow">→</div>
+        </div>
+        <div class="service-card" id="svc-soporte">
+          <div class="service-icon">🛡️</div>
+          <h3>Garantía & Soporte 24/7</h3>
+          <p>2 años de garantía oficial, soporte en tiempo real y reposición express en 48 horas.</p>
+          <div class="service-arrow">→</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== COMPARATIVA ===== -->
+  <section class="comparison" id="comparativa">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Comparativa</span>
+        <h2 class="section-title">Elige el modelo <span class="gradient-text">perfecto para ti</span></h2>
+      </div>
+      <div class="comparison-table-wrap">
+        <table class="comparison-table" id="comparison-table">
+          <thead>
+            <tr>
+              <th>Característica</th>
+              <th>Lite</th>
+              <th class="highlight-col">Pro ⭐</th>
+              <th>Ultra Sport</th>
+              <th>Elite</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Pantalla</td><td>OLED 1.4"</td><td class="highlight-col">AMOLED 2.0"</td><td>AMOLED 1.9"</td><td>Safiro 2.1"</td></tr>
+            <tr><td>Batería</td><td>7 días</td><td class="highlight-col">14 días</td><td>21 días</td><td>∞ Solar</td></tr>
+            <tr><td>GPS</td><td>❌</td><td class="highlight-col">✅ Dual banda</td><td>✅ Multibanda</td><td>✅ Multibanda</td></tr>
+            <tr><td>ECG</td><td>❌</td><td class="highlight-col">✅</td><td>✅</td><td>✅</td></tr>
+            <tr><td>NFC Pagos</td><td>❌</td><td class="highlight-col">✅</td><td>❌</td><td>✅</td></tr>
+            <tr><td>Material</td><td>Plástico</td><td class="highlight-col">Aluminio</td><td>Fibra carbono</td><td>Titanio</td></tr>
+            <tr><td>Resistencia</td><td>IP67</td><td class="highlight-col">IP68</td><td>IP68</td><td>IP69K</td></tr>
+            <tr><td>Precio</td><td>$2,999</td><td class="highlight-col price-highlight">$6,499</td><td>$9,799</td><td>$15,299</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TESTIMONIOS ===== -->
+  <section class="testimonials" id="testimonios">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Opiniones reales</span>
+        <h2 class="section-title">Lo que dicen nuestros <span class="gradient-text">clientes</span></h2>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card" id="test-1">
+          <div class="test-stars">★★★★★</div>
+          <p class="test-text">"El NuWatch Pro cambió mi forma de entrenar. El monitoreo cardíaco es increíblemente preciso y la app es muy intuitiva."</p>
+          <div class="test-author">
+            <div class="test-avatar" style="background:linear-gradient(135deg,#8A05BE,#C837AB);">MG</div>
+            <div><strong>María González</strong><small>Corredora amateur · CDMX</small></div>
+          </div>
+        </div>
+        <div class="testimonial-card" id="test-2">
+          <div class="test-stars">★★★★★</div>
+          <p class="test-text">"Compré el Elite y la calidad es insuperable. El diseño en titanio es hermoso y la batería solar es un game changer."</p>
+          <div class="test-author">
+            <div class="test-avatar" style="background:linear-gradient(135deg,#3A0CA3,#7B2FBE);">CR</div>
+            <div><strong>Carlos Ramírez</strong><small>Empresario · Monterrey</small></div>
+          </div>
+        </div>
+        <div class="testimonial-card" id="test-3">
+          <div class="test-stars">★★★★★</div>
+          <p class="test-text">"El Ultra Sport es perfecto para mis rutas de trail. El GPS multibanda nunca falla ni en los cañones más profundos."</p>
+          <div class="test-author">
+            <div class="test-avatar" style="background:linear-gradient(135deg,#6A0DAD,#9B59B6);">LP</div>
+            <div><strong>Laura Pérez</strong><small>Trail runner · Guadalajara</small></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA FINAL ===== -->
+  <section class="cta-final" id="cta">
+    <div class="cta-bg-orb"></div>
+    <div class="container">
+      <div class="cta-content">
+        <h2>¿Listo para <span class="gradient-text">dar el salto</span>?</h2>
+        <p>Únete a más de 50,000 personas que ya llevan NuWatch en su muñeca. Envío gratis en todo México.</p>
+        <form class="cta-form" id="cta-form">
+          <input type="email" id="cta-email" placeholder="Tu correo electrónico" required />
+          <button type="submit" id="btn-cta-submit">Quiero el mío</button>
+        </form>
+        <p class="cta-fine-print">Sin spam. Recibe ofertas exclusivas, lanzamientos y guías de salud.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer" id="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <span class="logo-icon">⌚</span>
+            <span class="logo-text">Nu<strong>Watch</strong></span>
+          </div>
+          <p>Tecnología que se adapta a ti. Salud, estilo y libertad en tu muñeca.</p>
+          <div class="social-links">
+            <a href="#" class="social-btn" id="social-ig" aria-label="Instagram">📷</a>
+            <a href="#" class="social-btn" id="social-tw" aria-label="Twitter">🐦</a>
+            <a href="#" class="social-btn" id="social-yt" aria-label="YouTube">▶️</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Productos</h4>
+          <ul>
+            <li><a href="#catalogo">NuWatch Lite</a></li>
+            <li><a href="#catalogo">NuWatch Pro</a></li>
+            <li><a href="#catalogo">Ultra Sport</a></li>
+            <li><a href="#catalogo">NuWatch Elite</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Servicios</h4>
+          <ul>
+            <li><a href="#servicios">Garantía</a></li>
+            <li><a href="#servicios">Soporte 24/7</a></li>
+            <li><a href="#servicios">App NuWatch</a></li>
+            <li><a href="#servicios">NFC Pagos</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Empresa</h4>
+          <ul>
+            <li><a href="#">Nosotros</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Trabaja con nosotros</a></li>
+            <li><a href="#">Aviso de privacidad</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 NuWatch. Todos los derechos reservados.</p>
+        <p>Hecho con 💜 en México</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast">
+    <span class="toast-icon">✅</span>
+    <span id="toast-msg">Producto agregado al carrito</span>
+  </div>
+
+  <!-- Floating cart button -->
+  <button class="cart-float" id="cart-float" aria-label="Carrito de compras">
+    🛒 <span class="cart-count" id="cart-count">0</span>
+  </button>
+
+  <!-- Cart Modal -->
+  <div class="cart-modal-overlay" id="cart-modal">
+    <div class="cart-modal-content">
+      <div class="cart-modal-header">
+        <h2>Tu Carrito</h2>
+        <button class="cart-modal-close" id="cart-close">✕</button>
+      </div>
+      <div class="cart-items" id="cart-items">
+        <!-- JS will populate this -->
+      </div>
+      <div class="cart-modal-footer">
+        <div class="cart-total">
+          <span>Total:</span>
+          <strong id="cart-total-price">$0</strong>
+        </div>
+        <button class="btn-checkout" id="btn-checkout">Comprar por WhatsApp</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
