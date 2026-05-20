@@ -3,14 +3,14 @@
    ============================================================ */
 
 const defaultProducts = [
-  { id: '1', name: 'NuWatch Pro', category: 'pro', price: '3999', desc: 'Acero inoxidable y cristal de zafiro.', img: ['images/products/pro/1.png', 'images/products/pro/2.png'] },
-  { id: '2', name: 'NuWatch Ultra Sport', category: 'sport', price: '4599', desc: 'GPS de doble frecuencia y titanio.', img: ['images/products/sport/1.png', 'images/products/sport/2.png'] },
-  { id: '3', name: 'NuWatch Elite', category: 'classic', price: '5299', desc: 'Acabados en oro de 18k.', img: ['images/products/elite/1.png', 'images/products/elite/2.png'] },
-  { id: '4', name: 'NuWatch Hero', category: 'pro', price: '3299', desc: 'Nuestra versión más ligera.', img: ['images/products/hero/1.png', 'images/products/hero/2.png'] }
+  { id: '1', name: 'NuWatch Pro', category: 'pro', price: '3999', desc: 'Acero inoxidable y cristal de zafiro.', img: ['images/products/pro/1.png', 'images/products/pro/2.png'], features: ['❤️ ECG', '💳 NFC', '🏊 IP68'] },
+  { id: '2', name: 'NuWatch Ultra Sport', category: 'sport', price: '4599', desc: 'GPS de doble frecuencia y titanio.', img: ['images/products/sport/1.png', 'images/products/sport/2.png'], features: ['🏃 GPS', '💧 SpO2', '🌡️ Temp.'] },
+  { id: '3', name: 'NuWatch Elite', category: 'classic', price: '5299', desc: 'Acabados en oro de 18k.', img: ['images/products/elite/1.png', 'images/products/elite/2.png'], features: ['💎 Premium', '⏱️ Garantía 2A'] },
+  { id: '4', name: 'NuWatch Hero', category: 'pro', price: '3299', desc: 'Nuestra versión más ligera.', img: ['images/products/hero/1.png', 'images/products/hero/2.png'], features: ['📱 App', '❤️ Salud'] }
 ];
 
 let products = JSON.parse(localStorage.getItem('nuwatch_products')) || defaultProducts;
-if (products.length > 0 && typeof products[0].img === 'string' && !products[0].img.includes('images/products/')) {
+if (products.length > 0 && typeof products[0].features === 'undefined') {
   localStorage.removeItem('nuwatch_products');
   products = defaultProducts;
 }
@@ -134,7 +134,8 @@ form.addEventListener('submit', (e) => {
     category: document.getElementById('prod-category').value,
     price: document.getElementById('prod-price').value,
     desc: document.getElementById('prod-desc').value,
-    img: document.getElementById('prod-img').value.split(',').map(s => s.trim())
+    img: document.getElementById('prod-img').value.split(',').map(s => s.trim()),
+    features: document.getElementById('prod-features').value.split(',').map(s => s.trim())
   };
 
   if (id) {
@@ -156,6 +157,7 @@ window.editProduct = (id) => {
   document.getElementById('prod-price').value = p.price;
   document.getElementById('prod-desc').value = p.desc;
   document.getElementById('prod-img').value = Array.isArray(p.img) ? p.img.join(', ') : p.img;
+  document.getElementById('prod-features').value = Array.isArray(p.features) ? p.features.join(', ') : '';
   
   document.getElementById('modal-title').textContent = 'Editar Producto';
   modal.classList.add('show');

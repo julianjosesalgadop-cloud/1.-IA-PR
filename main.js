@@ -21,14 +21,14 @@ function trackCartClick() {
 
 /* ── DEFAULT PRODUCTS ─────────────────────────────────────── */
 const defaultProducts = [
-  { id: '1', name: 'NuWatch Pro', category: 'luxury', price: '3999', desc: 'Acero inoxidable y cristal de zafiro.', img: ['images/products/pro/1.png', 'images/products/pro/2.png'] },
-  { id: '2', name: 'NuWatch Ultra Sport', category: 'sport', price: '4599', desc: 'GPS de doble frecuencia y titanio.', img: ['images/products/sport/1.png', 'images/products/sport/2.png'] },
-  { id: '3', name: 'NuWatch Elite', category: 'luxury', price: '5299', desc: 'Acabados en oro de 18k.', img: ['images/products/elite/1.png', 'images/products/elite/2.png'] },
-  { id: '4', name: 'NuWatch Hero', category: 'pro', price: '3299', desc: 'Nuestra versión más ligera.', img: ['images/products/hero/1.png', 'images/products/hero/2.png'] }
+  { id: '1', name: 'NuWatch Pro', category: 'luxury', price: '3999', desc: 'Acero inoxidable y cristal de zafiro.', img: ['images/products/pro/1.png', 'images/products/pro/2.png'], features: ['❤️ ECG', '💳 NFC', '🏊 IP68'] },
+  { id: '2', name: 'NuWatch Ultra Sport', category: 'sport', price: '4599', desc: 'GPS de doble frecuencia y titanio.', img: ['images/products/sport/1.png', 'images/products/sport/2.png'], features: ['🏃 GPS', '💧 SpO2', '🌡️ Temp.'] },
+  { id: '3', name: 'NuWatch Elite', category: 'luxury', price: '5299', desc: 'Acabados en oro de 18k.', img: ['images/products/elite/1.png', 'images/products/elite/2.png'], features: ['💎 Premium', '⏱️ Garantía 2A'] },
+  { id: '4', name: 'NuWatch Hero', category: 'pro', price: '3299', desc: 'Nuestra versión más ligera.', img: ['images/products/hero/1.png', 'images/products/hero/2.png'], features: ['📱 App', '❤️ Salud'] }
 ];
 
 let products = JSON.parse(localStorage.getItem('nuwatch_products')) || defaultProducts;
-if (products.length > 0 && typeof products[0].img === 'string' && !products[0].img.includes('images/products/')) {
+if (products.length > 0 && typeof products[0].features === 'undefined') {
   // Migración: borrar caché antigua
   localStorage.removeItem('nuwatch_products');
   products = defaultProducts;
@@ -51,20 +51,26 @@ function renderStoreProducts() {
     article.dataset.price = p.price;
     article.dataset.desc = p.desc;
     
-    const firstImg = Array.isArray(p.img) ? p.img[0] : p.img;
+    const images = Array.isArray(p.img) ? p.img : [p.img];
+    
+    // Generar las imágenes superpuestas para el carrusel
+    const imgsHtml = images.map((img, i) => 
+      `<img src="${img}" alt="${p.name}" class="card-img carousel-img" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; opacity:${i === 0 ? 1 : 0}; transition: opacity 0.5s ease-in-out;" />`
+    ).join('');
+
     article.innerHTML = `
-      <div class="card-image-wrap">
-        <img src="${firstImg}" alt="${p.name}" class="card-img" />
+      <div class="card-image-wrap carousel-container" style="position:relative; overflow:hidden; padding-top:100%;">
+        ${imgsHtml}
         <div class="card-glow"></div>
       </div>
       <div class="card-body">
-        <div class="card-category">${p.category}</div>
-        <h3 class="card-name">${p.name}</h3>
+        <h3 class="card-title">${p.name}</h3>
         <p class="card-desc">${p.desc}</p>
         <div class="card-features">
-          <span class="feat-tag">🔥 Destacado</span>
+          ${Array.isArray(p.features) ? p.features.map(f => `<span>${f}</span>`).join('') : ''}
         </div>
-        <div class="card-footer">
+      </div>
+      <div class="card-footer">
           <div class="card-price">
             <span class="price-now">$${formatPrice}</span>
           </div>
@@ -78,6 +84,22 @@ function renderStoreProducts() {
   initFilter();
   initQuickView();
   initCartBindings();
+  initCarousels();
+}
+
+function initCarousels() {
+  const containers = qsa('.carousel-container');
+  containers.forEach(container => {
+    const images = container.querySelectorAll('.carousel-img');
+    if (images.length > 1) {
+      let currentIndex = 0;
+      setInterval(() => {
+        images[currentIndex].style.opacity = '0';
+        currentIndex = (currentIndex + 1) % images.length;
+        images[currentIndex].style.opacity = '1';
+      }, 3000); // Cambiar cada 3 segundos
+    }
+  });
 }
 
 /* ============================================================
@@ -180,8 +202,7 @@ function initQuickView() {
               <p style="color:var(--nu-gray-600);font-size:1.05rem;line-height:1.5;margin-bottom:2rem;">${p.desc}</p>
               
               <div style="margin-bottom: 2rem; display:flex; gap:0.5rem; flex-wrap:wrap;">
-                 <span style="background:var(--nu-gray-100); padding:0.4rem 0.8rem; border-radius:999px; font-size:0.8rem; font-weight:600;">💎 Premium</span>
-                 <span style="background:var(--nu-gray-100); padding:0.4rem 0.8rem; border-radius:999px; font-size:0.8rem; font-weight:600;">⏱️ Garantía 2A</span>
+                 ${Array.isArray(p.features) ? p.features.map(f => `<span style="background:var(--nu-gray-100); padding:0.4rem 0.8rem; border-radius:999px; font-size:0.8rem; font-weight:600;">${f}</span>`).join('') : ''}
               </div>
               
               <div style="display:flex; align-items:center; justify-content:space-between; margin-top:auto;">
