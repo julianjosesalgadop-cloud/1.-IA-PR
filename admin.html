@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin - NuWatch</title>
+  <title>Admin – NuWatch Panel</title>
   <link rel="stylesheet" href="admin.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
@@ -12,20 +12,24 @@
   <!-- LOGIN SCREEN -->
   <div class="login-screen" id="login-screen">
     <div class="login-box">
-      <div class="login-logo">NuWatch <strong>Admin</strong></div>
+      <div class="login-logo">
+        <span class="logo-icon">⌚</span>
+        <span class="logo-text">Nu<strong>Watch</strong> Admin</span>
+      </div>
       <p class="login-desc">Ingresa tus credenciales para acceder al panel de control.</p>
       <form id="login-form">
         <div class="form-group">
-          <label>Usuario</label>
-          <input type="text" id="username" placeholder="admin" required>
+          <label>Correo electrónico</label>
+          <input type="email" id="username" placeholder="admin@nuwatch.com" required>
         </div>
         <div class="form-group">
           <label>Contraseña</label>
-          <input type="password" id="password" placeholder="admin123" required>
+          <input type="password" id="password" placeholder="••••••••" required>
         </div>
         <button type="submit" class="btn-primary">Iniciar Sesión</button>
         <p id="login-error" class="error-msg"></p>
       </form>
+      <a href="reset-password.html" style="display:block; text-align:center; margin-top:1rem; color:var(--nu-primary); font-weight:600; font-size:0.9rem;">¿Olvidaste tu contraseña?</a>
       <a href="index.html" class="back-link">← Volver a la tienda</a>
     </div>
   </div>
@@ -33,10 +37,12 @@
   <!-- ADMIN DASHBOARD -->
   <div class="dashboard" id="dashboard" style="display: none;">
     <aside class="sidebar">
-      <div class="sidebar-logo">NuWatch <strong>Admin</strong></div>
+      <div class="sidebar-logo">Nu<strong>Watch</strong> Admin</div>
+      <div id="sidebar-user" style="padding: 0 1.5rem; margin-bottom: 0.5rem; font-size: 0.8rem; color: var(--nu-gray-600);"></div>
       <nav class="sidebar-nav">
         <a href="#stats" class="active">📊 Estadísticas</a>
         <a href="#products">⌚ Productos</a>
+        <a href="#users" id="nav-users" style="display:none;">👥 Usuarios</a>
         <a href="#settings">⚙️ Configuración</a>
       </nav>
       <button id="btn-logout" class="btn-logout">Cerrar Sesión</button>
@@ -44,7 +50,7 @@
 
     <main class="main-content">
       <header class="main-header">
-        <h1>Panel de Control</h1>
+        <h1 id="section-title">Panel de Control</h1>
       </header>
 
       <!-- STATS SECTION -->
@@ -52,24 +58,23 @@
         <div class="stats-grid">
           <div class="stat-card">
             <h3>Visitas a la Tienda</h3>
-            <p id="stat-views" class="stat-value">0</p>
+            <p id="stat-views" class="stat-value">–</p>
           </div>
           <div class="stat-card">
             <h3>Interacciones de Carrito</h3>
-            <p id="stat-clicks" class="stat-value">0</p>
+            <p id="stat-clicks" class="stat-value">–</p>
           </div>
           <div class="stat-card">
             <h3>Total de Productos</h3>
-            <p id="stat-products" class="stat-value">0</p>
+            <p id="stat-products" class="stat-value">–</p>
           </div>
         </div>
-        <p id="reset-stats" style="color:var(--nu-primary);cursor:pointer;font-weight:600;display:inline-block;">Reiniciar Estadísticas</p>
 
         <div style="margin-top: 3rem;">
-          <h3 style="margin-bottom: 1rem;">Interacciones por Producto (Agregados al carrito)</h3>
+          <h3 style="margin-bottom: 1rem;">Interacciones por Producto</h3>
           <div style="background: var(--nu-white); border-radius: 16px; padding: 1.5rem; box-shadow: var(--shadow-sm);">
             <ul id="product-stats-list" style="list-style:none; padding:0; margin:0;">
-              <!-- JS -->
+              <li style="color: var(--nu-gray-600); padding: 1rem 0;">Cargando estadísticas…</li>
             </ul>
           </div>
         </div>
@@ -81,7 +86,6 @@
           <h2>Catálogo de Productos</h2>
           <button id="btn-new-product" class="btn-primary">+ Nuevo Producto</button>
         </div>
-
         <div class="table-wrap">
           <table class="admin-table">
             <thead>
@@ -90,13 +94,34 @@
                 <th>Nombre</th>
                 <th>Categoría</th>
                 <th>Precio</th>
-                <th>Agregado a Carrito</th>
+                <th>Carrito</th>
                 <th>Acciones</th>
               </tr>
             </thead>
-            <tbody id="admin-product-list">
-              <!-- Rendered by JS -->
-            </tbody>
+            <tbody id="admin-product-list"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- USERS SECTION (superadmin only) -->
+      <section id="section-users" class="admin-section" style="display: none;">
+        <div class="section-top">
+          <h2>Gestión de Usuarios Admin</h2>
+          <button id="btn-new-user" class="btn-primary">+ Nuevo Usuario</button>
+        </div>
+        <div class="table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Rol</th>
+                <th>Estado</th>
+                <th>Último acceso</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="admin-user-list"></tbody>
           </table>
         </div>
       </section>
@@ -107,18 +132,18 @@
           <h2>Configuración del Sistema</h2>
         </div>
         <div class="login-box" style="max-width: 100%; box-shadow: var(--shadow-sm); border-radius: 16px; padding: 2rem;">
-          <h3 style="margin-bottom: 1rem;">Cambiar Contraseña</h3>
+          <h3 style="margin-bottom: 1rem;">Cambiar mi Contraseña</h3>
           <form id="password-form">
             <div class="form-group">
-              <label>Nueva Contraseña</label>
-              <input type="password" id="new-password" placeholder="Ingresa la nueva contraseña" required>
+              <label>Nueva Contraseña (mín. 8 caracteres)</label>
+              <input type="password" id="new-password" placeholder="Ingresa la nueva contraseña" required minlength="8">
             </div>
             <div class="form-group">
               <label>Confirmar Contraseña</label>
-              <input type="password" id="confirm-password" placeholder="Repite la nueva contraseña" required>
+              <input type="password" id="confirm-password" placeholder="Repite la nueva contraseña" required minlength="8">
             </div>
             <button type="submit" class="btn-primary" style="width: auto;">Guardar Contraseña</button>
-            <p id="password-msg" class="error-msg" style="color: #34C759;"></p>
+            <p id="password-msg" class="error-msg"></p>
           </form>
         </div>
       </section>
@@ -140,7 +165,7 @@
           <input type="text" id="prod-category" required>
         </div>
         <div class="form-group">
-          <label>Precio Numérico (sin comas ni símbolos)</label>
+          <label>Precio (número)</label>
           <input type="number" id="prod-price" required>
         </div>
         <div class="form-group">
@@ -149,15 +174,54 @@
         </div>
         <div class="form-group">
           <label>Rutas de imágenes (separadas por coma)</label>
-          <input type="text" id="prod-img" required>
+          <input type="text" id="prod-img" required placeholder="images/products/pro/1.png, images/products/pro/2.png">
         </div>
         <div class="form-group">
-          <label>Características / Etiquetas (separadas por coma, ej. 💎 Premium, ⏱️ Garantía 2A)</label>
-          <input type="text" id="prod-features" required>
+          <label>Características (separadas por coma)</label>
+          <input type="text" id="prod-features" placeholder="💎 Premium, ⏱️ Garantía 2A">
         </div>
         <div class="modal-actions">
           <button type="button" class="btn-ghost" id="btn-close-modal">Cancelar</button>
           <button type="submit" class="btn-primary">Guardar Producto</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- USER MODAL -->
+  <div class="modal-overlay" id="user-modal">
+    <div class="modal-content">
+      <h2 id="user-modal-title">Nuevo Administrador</h2>
+      <form id="user-form">
+        <input type="hidden" id="user-id">
+        <div class="form-group">
+          <label>Nombre completo</label>
+          <input type="text" id="user-name" required>
+        </div>
+        <div class="form-group">
+          <label>Correo electrónico</label>
+          <input type="email" id="user-email" required>
+        </div>
+        <div class="form-group">
+          <label>Rol</label>
+          <select id="user-role" style="width:100%; padding: 0.8rem 1rem; border: 1.5px solid #EBEBF0; border-radius: 10px; font-size: 1rem; font-family: inherit;">
+            <option value="admin">Admin</option>
+            <option value="superadmin">Superadmin</option>
+          </select>
+        </div>
+        <div class="form-group" id="user-pass-group">
+          <label>Contraseña (mín. 8 caracteres)</label>
+          <input type="password" id="user-password" minlength="8">
+          <small style="color: var(--nu-gray-600);">Deja en blanco para no cambiar (al editar)</small>
+        </div>
+        <div class="form-group" id="user-active-group" style="display:none;">
+          <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+            <input type="checkbox" id="user-active" checked style="width:18px; height:18px;"> Cuenta activa
+          </label>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-ghost" id="btn-close-user-modal">Cancelar</button>
+          <button type="submit" class="btn-primary">Guardar Usuario</button>
         </div>
       </form>
     </div>

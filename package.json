@@ -1,0 +1,28 @@
+{
+  "name": "1.-ia-pr",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/julianjosesalgadop-cloud/1.-IA-PR.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/julianjosesalgadop-cloud/1.-IA-PR/issues"
+  },
+  "homepage": "https://github.com/julianjosesalgadop-cloud/1.-IA-PR#readme",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.106.1",
+    "bcryptjs": "^3.0.3",
+    "dotenv": "^17.4.2",
+    "jsonwebtoken": "^9.0.3",
+    "nodemailer": "^8.0.7"
+  }
+}
