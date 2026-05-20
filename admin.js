@@ -27,7 +27,9 @@ loginForm.addEventListener('submit', (e) => {
   const user = document.getElementById('username').value;
   const pass = document.getElementById('password').value;
   
-  if (user === 'admin' && pass === 'admin123') {
+  const storedPass = localStorage.getItem('nuwatch_admin_password') || 'admin123';
+
+  if (user === 'admin' && pass === storedPass) {
     sessionStorage.setItem('nuwatch_admin_logged', 'true');
     showDashboard();
   } else {
@@ -84,12 +86,14 @@ const tbody = document.getElementById('admin-product-list');
 function renderProducts() {
   tbody.innerHTML = '';
   products.forEach(p => {
+    const pClicks = localStorage.getItem('nuwatch_clicks_prod_' + p.id) || 0;
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td><img src="${p.img}" alt="${p.name}"></td>
       <td><strong>${p.name}</strong></td>
       <td>${p.category}</td>
       <td>$${parseInt(p.price).toLocaleString('es-MX')}</td>
+      <td><strong style="color:var(--nu-primary);">${pClicks}</strong> veces</td>
       <td>
         <button class="action-btn edit-btn" onclick="editProduct('${p.id}')">Editar</button>
         <button class="action-btn del-btn" onclick="deleteProduct('${p.id}')">Borrar</button>
@@ -158,3 +162,31 @@ window.deleteProduct = (id) => {
     renderProducts();
   }
 };
+
+// Password Change Logic
+const passForm = document.getElementById('password-form');
+if(passForm) {
+  passForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const newPass = document.getElementById('new-password').value;
+    const confirmPass = document.getElementById('confirm-password').value;
+    const msg = document.getElementById('password-msg');
+
+    if(newPass !== confirmPass) {
+      msg.style.color = '#FF3B30';
+      msg.textContent = 'Las contraseñas no coinciden.';
+      return;
+    }
+
+    if(newPass.length < 6) {
+      msg.style.color = '#FF3B30';
+      msg.textContent = 'La contraseña debe tener al menos 6 caracteres.';
+      return;
+    }
+
+    localStorage.setItem('nuwatch_admin_password', newPass);
+    msg.style.color = '#34C759';
+    msg.textContent = 'Contraseña actualizada exitosamente.';
+    passForm.reset();
+  });
+}

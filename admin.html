@@ -37,6 +37,7 @@
       <nav class="sidebar-nav">
         <a href="#stats" class="active">📊 Estadísticas</a>
         <a href="#products">⌚ Productos</a>
+        <a href="#settings">⚙️ Configuración</a>
       </nav>
       <button id="btn-logout" class="btn-logout">Cerrar Sesión</button>
     </aside>
@@ -80,6 +81,7 @@
                 <th>Nombre</th>
                 <th>Categoría</th>
                 <th>Precio</th>
+                <th>Agregado a Carrito</th>
                 <th>Acciones</th>
               </tr>
             </thead>
@@ -87,6 +89,28 @@
               <!-- Rendered by JS -->
             </tbody>
           </table>
+        </div>
+      </section>
+
+      <!-- SETTINGS SECTION -->
+      <section id="section-settings" class="admin-section" style="display: none;">
+        <div class="section-top">
+          <h2>Configuración del Sistema</h2>
+        </div>
+        <div class="login-box" style="max-width: 100%; box-shadow: var(--shadow-sm); border-radius: 16px; padding: 2rem;">
+          <h3 style="margin-bottom: 1rem;">Cambiar Contraseña</h3>
+          <form id="password-form">
+            <div class="form-group">
+              <label>Nueva Contraseña</label>
+              <input type="password" id="new-password" placeholder="Ingresa la nueva contraseña" required>
+            </div>
+            <div class="form-group">
+              <label>Confirmar Contraseña</label>
+              <input type="password" id="confirm-password" placeholder="Repite la nueva contraseña" required>
+            </div>
+            <button type="submit" class="btn-primary" style="width: auto;">Guardar Contraseña</button>
+            <p id="password-msg" class="error-msg" style="color: #34C759;"></p>
+          </form>
         </div>
       </section>
     </main>

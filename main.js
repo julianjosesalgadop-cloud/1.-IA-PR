@@ -62,7 +62,7 @@ function renderStoreProducts() {
           <div class="card-price">
             <span class="price-now">$${formatPrice}</span>
           </div>
-          <button class="btn-card" data-name="${p.name}" data-price="${p.price}">Agregar</button>
+          <button class="btn-card" data-id="${p.id}" data-name="${p.name}" data-price="${p.price}">Agregar</button>
         </div>
       </div>
     `;
@@ -220,10 +220,17 @@ function updateCart() {
   });
 }
 
-function addToCart(name, price) {
+function addToCart(id, name, price) {
   cartItems.push({ name, price });
   updateCart();
   trackCartClick();
+  
+  // Track por producto
+  if (id) {
+    let prodClicks = parseInt(localStorage.getItem('nuwatch_clicks_prod_' + id) || '0');
+    localStorage.setItem('nuwatch_clicks_prod_' + id, prodClicks + 1);
+  }
+
   const floatBtn = qs('#cart-float');
   if(floatBtn) { floatBtn.style.transform = 'scale(1.15)'; setTimeout(() => floatBtn.style.transform = '', 200); }
   showToast(name);
@@ -231,7 +238,7 @@ function addToCart(name, price) {
 
 function initCartBindings() {
   qsa('.btn-card').forEach(btn => {
-    btn.addEventListener('click', () => addToCart(btn.dataset.name, btn.dataset.price));
+    btn.addEventListener('click', () => addToCart(btn.dataset.id, btn.dataset.name, btn.dataset.price));
   });
 }
 
