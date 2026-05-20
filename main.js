@@ -21,13 +21,18 @@ function trackCartClick() {
 
 /* ── DEFAULT PRODUCTS ─────────────────────────────────────── */
 const defaultProducts = [
-  { id: '1', name: 'NuWatch Pro', category: 'luxury', price: '3999', desc: 'Acero inoxidable y cristal de zafiro.', img: 'img_pro.png' },
-  { id: '2', name: 'NuWatch Ultra Sport', category: 'sport', price: '4599', desc: 'GPS de doble frecuencia y titanio.', img: 'img_sport.png' },
-  { id: '3', name: 'NuWatch Elite', category: 'luxury', price: '5299', desc: 'Acabados en oro de 18k.', img: 'img_elite.png' },
-  { id: '4', name: 'NuWatch Hero', category: 'pro', price: '3299', desc: 'Nuestra versión más ligera.', img: 'img_hero.png' }
+  { id: '1', name: 'NuWatch Pro', category: 'luxury', price: '3999', desc: 'Acero inoxidable y cristal de zafiro.', img: ['images/products/pro/1.png', 'images/products/pro/2.png'] },
+  { id: '2', name: 'NuWatch Ultra Sport', category: 'sport', price: '4599', desc: 'GPS de doble frecuencia y titanio.', img: ['images/products/sport/1.png', 'images/products/sport/2.png'] },
+  { id: '3', name: 'NuWatch Elite', category: 'luxury', price: '5299', desc: 'Acabados en oro de 18k.', img: ['images/products/elite/1.png', 'images/products/elite/2.png'] },
+  { id: '4', name: 'NuWatch Hero', category: 'pro', price: '3299', desc: 'Nuestra versión más ligera.', img: ['images/products/hero/1.png', 'images/products/hero/2.png'] }
 ];
 
 let products = JSON.parse(localStorage.getItem('nuwatch_products')) || defaultProducts;
+if (products.length > 0 && typeof products[0].img === 'string' && !products[0].img.includes('images/products/')) {
+  // Migración: borrar caché antigua
+  localStorage.removeItem('nuwatch_products');
+  products = defaultProducts;
+}
 
 /* ============================================================
    1. RENDER PRODUCTS DYNAMICALLY
@@ -46,9 +51,10 @@ function renderStoreProducts() {
     article.dataset.price = p.price;
     article.dataset.desc = p.desc;
     
+    const firstImg = Array.isArray(p.img) ? p.img[0] : p.img;
     article.innerHTML = `
       <div class="card-image-wrap">
-        <img src="${p.img}" alt="${p.name}" class="card-img" />
+        <img src="${firstImg}" alt="${p.name}" class="card-img" />
         <div class="card-glow"></div>
       </div>
       <div class="card-body">
@@ -129,37 +135,72 @@ function initFilter() {
 }
 
 /* ============================================================
-   4. QUICK VIEW
+   4. QUICK VIEW (COLLAGE)
    ============================================================ */
 function initQuickView() {
   const cards = qsa('.product-card');
   cards.forEach(card => {
-    card.addEventListener('dblclick', () => {
-      const name  = card.dataset.name;
-      const price = `$${parseInt(card.dataset.price).toLocaleString('es-MX')}`;
-      const desc  = card.dataset.desc;
+    // Escuchar el clic sobre la imagen del reloj para abrir el detalle
+    const imgWrap = qs('.card-image-wrap', card);
+    if(imgWrap) {
+      imgWrap.style.cursor = 'pointer';
+      imgWrap.addEventListener('click', () => {
+        const id = qs('.btn-card', card).dataset.id;
+        const p = products.find(prod => prod.id === id);
+        if(!p) return;
+        
+        const formatPrice = `$${parseInt(p.price).toLocaleString('es-MX')}`;
+        const images = Array.isArray(p.img) ? p.img : [p.img];
 
-      const overlay = document.createElement('div');
-      overlay.style.cssText = `position:fixed;inset:0;z-index:3000;background:rgba(0,0,0,0.5);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:1.5rem;animation:fadeInDown .3s ease both;`;
-      overlay.innerHTML = `
-        <div style="background:#FFFFFF;border:1px solid #EBEBF0;border-radius:24px;padding:2.5rem;max-width:420px;width:100%;text-align:center;position:relative;box-shadow:0 16px 40px rgba(0,0,0,0.12);">
-          <button id="qv-close" style="position:absolute;top:1rem;right:1rem;background:#F5F5F7;border:none;color:#111111;width:36px;height:36px;border-radius:50%;font-size:1.1rem;cursor:pointer;transition:all 0.2s;">✕</button>
-          <p style="font-size:.75rem;font-weight:700;text-transform:uppercase;color:#8E8E93;margin-bottom:.5rem;">Vista rápida</p>
-          <h2 style="font-size:1.8rem;font-weight:800;margin-bottom:.5rem;color:#111111;">${name}</h2>
-          <p style="color:#3A3A3C;font-size:.9rem;margin-bottom:1.5rem;">${desc}</p>
-          <p style="font-size:2rem;font-weight:900;color:#111111;margin-bottom:1.5rem;">${price}</p>
-          <button id="qv-add" style="width:100%;padding:1rem;background:#820AD1;color:#fff;border:none;border-radius:9999px;font-size:1rem;font-weight:700;cursor:pointer;">Agregar al carrito</button>
-        </div>`;
-      
-      document.body.appendChild(overlay);
-      const close = () => overlay.remove();
-      qs('#qv-close', overlay).addEventListener('click', close);
-      overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
-      qs('#qv-add', overlay).addEventListener('click', () => {
-        close();
-        card.querySelector('.btn-card')?.click();
+        // Crear grilla del collage según cuántas imágenes tenga
+        let collageHtml = '';
+        if (images.length === 1) {
+           collageHtml = `<img src="${images[0]}" style="width:100%; height:100%; object-fit:cover; border-radius:16px;">`;
+        } else {
+           collageHtml = `<div style="display:grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap:10px; height:100%;">
+             <img src="${images[0]}" style="width:100%; height:100%; object-fit:cover; border-radius:16px; grid-column: span 2; grid-row: span 1;">
+             ${images.slice(1,3).map(i => `<img src="${i}" style="width:100%; height:100%; object-fit:cover; border-radius:16px;">`).join('')}
+           </div>`;
+        }
+
+        const overlay = document.createElement('div');
+        overlay.style.cssText = `position:fixed;inset:0;z-index:3000;background:rgba(0,0,0,0.6);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:2rem;animation:fadeInDown .3s ease both;`;
+        
+        overlay.innerHTML = `
+          <div style="background:var(--nu-white);border-radius:24px;width:100%;max-width:900px;display:flex;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,0.2);position:relative;flex-direction:row;">
+            <button id="qv-close" style="position:absolute;top:1.5rem;right:1.5rem;background:var(--nu-gray-100);border:none;color:#111111;width:40px;height:40px;border-radius:50%;font-size:1.2rem;cursor:pointer;z-index:10;transition:all 0.2s;">✕</button>
+            
+            <div style="flex:1; background:var(--nu-gray-100); padding:1rem; min-height:400px;">
+              ${collageHtml}
+            </div>
+            
+            <div style="flex:1; padding:3rem; display:flex; flex-direction:column; justify-content:center;">
+              <p style="font-size:.85rem;font-weight:700;text-transform:uppercase;color:var(--nu-primary);margin-bottom:.5rem;">${p.category} Series</p>
+              <h2 style="font-size:2.5rem;font-weight:900;line-height:1.1;margin-bottom:1rem;color:var(--nu-dark);">${p.name}</h2>
+              <p style="color:var(--nu-gray-600);font-size:1.05rem;line-height:1.5;margin-bottom:2rem;">${p.desc}</p>
+              
+              <div style="margin-bottom: 2rem; display:flex; gap:0.5rem; flex-wrap:wrap;">
+                 <span style="background:var(--nu-gray-100); padding:0.4rem 0.8rem; border-radius:999px; font-size:0.8rem; font-weight:600;">💎 Premium</span>
+                 <span style="background:var(--nu-gray-100); padding:0.4rem 0.8rem; border-radius:999px; font-size:0.8rem; font-weight:600;">⏱️ Garantía 2A</span>
+              </div>
+              
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-top:auto;">
+                <p style="font-size:2rem;font-weight:900;color:var(--nu-dark);">${formatPrice}</p>
+                <button id="qv-add" style="padding:1rem 2rem;background:var(--nu-primary);color:#fff;border:none;border-radius:9999px;font-size:1.05rem;font-weight:700;cursor:pointer;transition:transform 0.2s;">Añadir al carrito</button>
+              </div>
+            </div>
+          </div>`;
+        
+        document.body.appendChild(overlay);
+        const close = () => overlay.remove();
+        qs('#qv-close', overlay).addEventListener('click', close);
+        overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
+        qs('#qv-add', overlay).addEventListener('click', () => {
+          close();
+          card.querySelector('.btn-card')?.click();
+        });
       });
-    });
+    }
   });
 }
 

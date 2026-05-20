@@ -3,13 +3,17 @@
    ============================================================ */
 
 const defaultProducts = [
-  { id: '1', name: 'NuWatch Pro', category: 'pro', price: '3999', desc: 'Acero inoxidable y cristal de zafiro.', img: 'img_pro.png' },
-  { id: '2', name: 'NuWatch Ultra Sport', category: 'sport', price: '4599', desc: 'GPS de doble frecuencia y titanio.', img: 'img_sport.png' },
-  { id: '3', name: 'NuWatch Elite', category: 'classic', price: '5299', desc: 'Acabados en oro de 18k.', img: 'img_elite.png' },
-  { id: '4', name: 'NuWatch Hero', category: 'pro', price: '3299', desc: 'Nuestra versión más ligera.', img: 'img_hero.png' }
+  { id: '1', name: 'NuWatch Pro', category: 'pro', price: '3999', desc: 'Acero inoxidable y cristal de zafiro.', img: ['images/products/pro/1.png', 'images/products/pro/2.png'] },
+  { id: '2', name: 'NuWatch Ultra Sport', category: 'sport', price: '4599', desc: 'GPS de doble frecuencia y titanio.', img: ['images/products/sport/1.png', 'images/products/sport/2.png'] },
+  { id: '3', name: 'NuWatch Elite', category: 'classic', price: '5299', desc: 'Acabados en oro de 18k.', img: ['images/products/elite/1.png', 'images/products/elite/2.png'] },
+  { id: '4', name: 'NuWatch Hero', category: 'pro', price: '3299', desc: 'Nuestra versión más ligera.', img: ['images/products/hero/1.png', 'images/products/hero/2.png'] }
 ];
 
 let products = JSON.parse(localStorage.getItem('nuwatch_products')) || defaultProducts;
+if (products.length > 0 && typeof products[0].img === 'string' && !products[0].img.includes('images/products/')) {
+  localStorage.removeItem('nuwatch_products');
+  products = defaultProducts;
+}
 
 // Setup Login
 const loginScreen = document.getElementById('login-screen');
@@ -87,9 +91,10 @@ function renderProducts() {
   tbody.innerHTML = '';
   products.forEach(p => {
     const pClicks = localStorage.getItem('nuwatch_clicks_prod_' + p.id) || 0;
+    const firstImg = Array.isArray(p.img) ? p.img[0] : p.img;
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td><img src="${p.img}" alt="${p.name}"></td>
+      <td><img src="${firstImg}" alt="${p.name}"></td>
       <td><strong>${p.name}</strong></td>
       <td>${p.category}</td>
       <td>$${parseInt(p.price).toLocaleString('es-MX')}</td>
@@ -129,7 +134,7 @@ form.addEventListener('submit', (e) => {
     category: document.getElementById('prod-category').value,
     price: document.getElementById('prod-price').value,
     desc: document.getElementById('prod-desc').value,
-    img: document.getElementById('prod-img').value
+    img: document.getElementById('prod-img').value.split(',').map(s => s.trim())
   };
 
   if (id) {
@@ -150,7 +155,7 @@ window.editProduct = (id) => {
   document.getElementById('prod-category').value = p.category;
   document.getElementById('prod-price').value = p.price;
   document.getElementById('prod-desc').value = p.desc;
-  document.getElementById('prod-img').value = p.img;
+  document.getElementById('prod-img').value = Array.isArray(p.img) ? p.img.join(', ') : p.img;
   
   document.getElementById('modal-title').textContent = 'Editar Producto';
   modal.classList.add('show');
