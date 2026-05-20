@@ -74,13 +74,42 @@ function renderStats() {
   document.getElementById('stat-views').textContent = views;
   document.getElementById('stat-clicks').textContent = clicks;
   document.getElementById('stat-products').textContent = products.length;
+
+  const statsList = document.getElementById('product-stats-list');
+  if (statsList) {
+    statsList.innerHTML = '';
+    const sortedProducts = [...products].sort((a, b) => {
+      const cA = parseInt(localStorage.getItem('nuwatch_clicks_prod_' + a.id) || 0);
+      const cB = parseInt(localStorage.getItem('nuwatch_clicks_prod_' + b.id) || 0);
+      return cB - cA;
+    });
+
+    sortedProducts.forEach(p => {
+      const c = parseInt(localStorage.getItem('nuwatch_clicks_prod_' + p.id) || 0);
+      const firstImg = Array.isArray(p.img) ? p.img[0] : p.img;
+      const li = document.createElement('li');
+      li.style.cssText = 'display:flex; justify-content:space-between; padding: 1rem 0; border-bottom: 1px solid #EBEBF0; align-items: center;';
+      li.innerHTML = `
+        <div style="display:flex; align-items:center; gap: 1rem;">
+          <img src="${firstImg}" style="width: 48px; height: 48px; object-fit: cover; border-radius: 8px; background: #F5F5F7;">
+          <span style="font-weight: 600; font-size: 1.1rem; color: #111;">${p.name}</span>
+        </div>
+        <div style="font-weight: 700; color: var(--nu-primary); background: var(--nu-gray-100); padding: 0.4rem 1.2rem; border-radius: 999px; font-size: 0.95rem;">
+          ${c} interacciones
+        </div>
+      `;
+      statsList.appendChild(li);
+    });
+  }
 }
 
-document.getElementById('btn-reset-stats').addEventListener('click', () => {
+document.getElementById('reset-stats').addEventListener('click', () => {
   if(confirm('¿Estás seguro de reiniciar a 0 las estadísticas?')) {
     localStorage.setItem('nuwatch_views', 0);
     localStorage.setItem('nuwatch_clicks', 0);
+    products.forEach(p => localStorage.setItem('nuwatch_clicks_prod_' + p.id, 0));
     renderStats();
+    renderProducts();
   }
 });
 
