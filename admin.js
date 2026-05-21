@@ -243,7 +243,7 @@ window.openEditProduct = (id) => {
   document.getElementById('prod-name').value = p.name;
   document.getElementById('prod-category').value = p.category;
   document.getElementById('prod-price').value = p.price;
-  document.getElementById('prod-desc').value = p.desc;
+  document.getElementById('prod-desc').value = p.description || '';
   document.getElementById('prod-img').value = Array.isArray(p.img) ? p.img.join(', ') : p.img;
   document.getElementById('prod-features').value = Array.isArray(p.features) ? p.features.join(', ') : '';
   document.getElementById('modal-title').textContent = 'Editar Producto';
