@@ -35,12 +35,14 @@ module.exports = async (req, res) => {
   }
 
   if (req.method === 'POST') {
-    const { name, category, price, desc, img, features } = req.body;
+    const { name, category, price, desc, description, img, features } = req.body;
     if (!name || !price) return res.status(400).json({ error: 'Nombre y precio requeridos.' });
+
+    const finalDesc = description !== undefined ? description : desc;
 
     const { data, error } = await supabase
       .from('products')
-      .insert({ name, category, price: parseFloat(price), description: desc, img: Array.isArray(img) ? img : [img], features: features || [], is_active: true })
+      .insert({ name, category, price: parseFloat(price), description: finalDesc, img: Array.isArray(img) ? img : [img], features: features || [], is_active: true })
       .select()
       .single();
 
@@ -54,6 +56,11 @@ module.exports = async (req, res) => {
 
     if (updates.price) updates.price = parseFloat(updates.price);
     if (updates.img && !Array.isArray(updates.img)) updates.img = [updates.img];
+    
+    if (updates.desc !== undefined) {
+      updates.description = updates.desc;
+      delete updates.desc;
+    }
 
     const { data, error } = await supabase
       .from('products')
