@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const supabase = require('../_lib/supabase');
+const supabase = require('../lib/supabase');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'nuwatch_dev_secret';
 

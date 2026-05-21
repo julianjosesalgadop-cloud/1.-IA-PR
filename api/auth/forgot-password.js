@@ -1,6 +1,6 @@
-const supabase = require('../_lib/supabase');
-const { generateResetToken } = require('../_lib/jwt');
-const { sendPasswordResetEmail } = require('../_lib/mailer');
+const supabase = require('../lib/supabase');
+const { generateResetToken } = require('../lib/jwt');
+const { sendPasswordResetEmail } = require('../lib/mailer');
 
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');

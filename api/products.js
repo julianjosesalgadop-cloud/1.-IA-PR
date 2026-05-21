@@ -1,5 +1,5 @@
-const supabase = require('../_lib/supabase');
-const { verifyToken } = require('../_lib/jwt');
+const supabase = require('../lib/supabase');
+const { verifyToken } = require('../lib/jwt');
 
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');

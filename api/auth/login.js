@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
-const supabase = require('../_lib/supabase');
-const { generateToken } = require('../_lib/jwt');
+const supabase = require('../lib/supabase');
+const { generateToken } = require('../lib/jwt');
 
 module.exports = async (req, res) => {
   // CORS headers
