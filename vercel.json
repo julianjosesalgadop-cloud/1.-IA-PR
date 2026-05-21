@@ -1,10 +1,21 @@
 {
   "version": 2,
-  "functions": {
-    "api/**/*.js": {
-      "runtime": "@vercel/node@3"
-    }
-  },
+  "builds": [
+    { "src": "api/auth/login.js", "use": "@vercel/node" },
+    { "src": "api/auth/forgot-password.js", "use": "@vercel/node" },
+    { "src": "api/auth/reset-password.js", "use": "@vercel/node" },
+    { "src": "api/products.js", "use": "@vercel/node" },
+    { "src": "api/users.js", "use": "@vercel/node" },
+    { "src": "api/analytics.js", "use": "@vercel/node" },
+    { "src": "index.html", "use": "@vercel/static" },
+    { "src": "admin.html", "use": "@vercel/static" },
+    { "src": "reset-password.html", "use": "@vercel/static" },
+    { "src": "styles.css", "use": "@vercel/static" },
+    { "src": "admin.css", "use": "@vercel/static" },
+    { "src": "main.js", "use": "@vercel/static" },
+    { "src": "admin.js", "use": "@vercel/static" },
+    { "src": "images/**", "use": "@vercel/static" }
+  ],
   "routes": [
     { "src": "/api/auth/login", "dest": "/api/auth/login.js" },
     { "src": "/api/auth/forgot-password", "dest": "/api/auth/forgot-password.js" },
@@ -12,9 +23,7 @@
     { "src": "/api/products", "dest": "/api/products.js" },
     { "src": "/api/users", "dest": "/api/users.js" },
     { "src": "/api/analytics", "dest": "/api/analytics.js" },
-    { "src": "/(.*\\.(css|js|png|jpg|jpeg|gif|svg|ico|webp|woff|woff2|ttf))", "dest": "/$1" },
-    { "src": "/(.*)\\.html", "dest": "/$1.html" },
-    { "src": "/", "dest": "/index.html" },
-    { "src": "/(.*)", "dest": "/$1" }
+    { "src": "/admin", "dest": "/admin.html" },
+    { "src": "/", "dest": "/index.html" }
   ]
 }
