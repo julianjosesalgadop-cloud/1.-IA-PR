@@ -32,7 +32,7 @@ module.exports = async (req, res) => {
 
     const { data, error } = await supabase
       .from('products')
-      .insert({ name, category, price: parseFloat(price), desc, img: Array.isArray(img) ? img : [img], features: features || [], is_active: true })
+      .insert({ name, category, price: parseFloat(price), description: desc, img: Array.isArray(img) ? img : [img], features: features || [], is_active: true })
       .select()
       .single();
 
