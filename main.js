@@ -8,30 +8,34 @@
 const qs  = (sel, ctx = document) => ctx.querySelector(sel);
 const qsa = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
 
-/* ── TRACKING (LOCALSTORAGE) ──────────────────────────────── */
+/* ── TRACKING (API) ───────────────────────────────────────── */
 (function trackViews() {
-  let views = parseInt(localStorage.getItem('nuwatch_views') || '0');
-  localStorage.setItem('nuwatch_views', views + 1);
+  fetch('/api/analytics', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ event: 'page_view' })
+  }).catch(console.error);
 })();
 
-function trackCartClick() {
-  let clicks = parseInt(localStorage.getItem('nuwatch_clicks') || '0');
-  localStorage.setItem('nuwatch_clicks', clicks + 1);
+function trackCartClick(productId) {
+  fetch('/api/analytics', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ event: 'cart_add', productId: productId || null })
+  }).catch(console.error);
 }
 
-/* ── DEFAULT PRODUCTS ─────────────────────────────────────── */
-const defaultProducts = [
-  { id: '1', name: 'NuWatch Pro', category: 'luxury', price: '3999', desc: 'Acero inoxidable y cristal de zafiro.', img: ['images/products/pro/1.png', 'images/products/pro/2.png'], features: ['❤️ ECG', '💳 NFC', '🏊 IP68'] },
-  { id: '2', name: 'NuWatch Ultra Sport', category: 'sport', price: '4599', desc: 'GPS de doble frecuencia y titanio.', img: ['images/products/sport/1.png', 'images/products/sport/2.png'], features: ['🏃 GPS', '💧 SpO2', '🌡️ Temp.'] },
-  { id: '3', name: 'NuWatch Elite', category: 'luxury', price: '5299', desc: 'Acabados en oro de 18k.', img: ['images/products/elite/1.png', 'images/products/elite/2.png'], features: ['💎 Premium', '⏱️ Garantía 2A'] },
-  { id: '4', name: 'NuWatch Hero', category: 'pro', price: '3299', desc: 'Nuestra versión más ligera.', img: ['images/products/hero/1.png', 'images/products/hero/2.png'], features: ['📱 App', '❤️ Salud'] }
-];
+/* ── PRODUCTS ─────────────────────────────────────────────── */
+let products = [];
 
-let products = JSON.parse(localStorage.getItem('nuwatch_products')) || defaultProducts;
-if (products.length > 0 && typeof products[0].features === 'undefined') {
-  // Migración: borrar caché antigua
-  localStorage.removeItem('nuwatch_products');
-  products = defaultProducts;
+async function fetchProducts() {
+  try {
+    const res = await fetch('/api/products');
+    products = await res.json();
+    renderStoreProducts();
+  } catch (err) {
+    console.error('Error fetching products:', err);
+  }
 }
 
 /* ============================================================
@@ -65,7 +69,7 @@ function renderStoreProducts() {
       </div>
       <div class="card-body">
         <h3 class="card-title">${p.name}</h3>
-        <p class="card-desc">${p.desc}</p>
+        <p class="card-desc">${p.description || p.desc || ''}</p>
         <div class="card-features">
           ${Array.isArray(p.features) ? p.features.map(f => `<span>${f}</span>`).join('') : ''}
         </div>
@@ -199,7 +203,7 @@ function initQuickView() {
             <div style="flex:1; padding:3rem; display:flex; flex-direction:column; justify-content:center;">
               <p style="font-size:.85rem;font-weight:700;text-transform:uppercase;color:var(--nu-primary);margin-bottom:.5rem;">${p.category} Series</p>
               <h2 style="font-size:2.5rem;font-weight:900;line-height:1.1;margin-bottom:1rem;color:var(--nu-dark);">${p.name}</h2>
-              <p style="color:var(--nu-gray-600);font-size:1.05rem;line-height:1.5;margin-bottom:2rem;">${p.desc}</p>
+              <p style="color:var(--nu-gray-600);font-size:1.05rem;line-height:1.5;margin-bottom:2rem;">${p.description || p.desc || ''}</p>
               
               <div style="margin-bottom: 2rem; display:flex; gap:0.5rem; flex-wrap:wrap;">
                  ${Array.isArray(p.features) ? p.features.map(f => `<span style="background:var(--nu-gray-100); padding:0.4rem 0.8rem; border-radius:999px; font-size:0.8rem; font-weight:600;">${f}</span>`).join('') : ''}
@@ -285,13 +289,7 @@ function updateCart() {
 function addToCart(id, name, price) {
   cartItems.push({ name, price });
   updateCart();
-  trackCartClick();
-  
-  // Track por producto
-  if (id) {
-    let prodClicks = parseInt(localStorage.getItem('nuwatch_clicks_prod_' + id) || '0');
-    localStorage.setItem('nuwatch_clicks_prod_' + id, prodClicks + 1);
-  }
+  trackCartClick(id);
 
   const floatBtn = qs('#cart-float');
   if(floatBtn) { floatBtn.style.transform = 'scale(1.15)'; setTimeout(() => floatBtn.style.transform = '', 200); }
@@ -335,5 +333,5 @@ function initCartBindings() {
    START APP
    ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
-  renderStoreProducts();
+  fetchProducts();
 });
