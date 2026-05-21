@@ -16,11 +16,19 @@ module.exports = async (req, res) => {
   }
 
   if (req.method === 'GET') {
-    const { data, error } = await supabase
-      .from('products')
-      .select('*')
-      .eq('is_active', true)
-      .order('created_at', { ascending: false });
+    const url = new URL(req.url, `http://${req.headers.host}`);
+    const fetchAll = url.searchParams.get('all') === 'true';
+
+    let query = supabase.from('products').select('*').order('created_at', { ascending: false });
+
+    if (fetchAll) {
+      const auth = verifyToken(req);
+      if (!auth.valid) return res.status(401).json({ error: auth.error });
+    } else {
+      query = query.eq('is_active', true);
+    }
+
+    const { data, error } = await query;
 
     if (error) return res.status(500).json({ error: error.message });
     return res.status(200).json(data);

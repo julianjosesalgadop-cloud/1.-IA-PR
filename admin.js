@@ -172,7 +172,7 @@ async function loadStats() {
 /* ── PRODUCTS ───────────────────────────────────────────── */
 async function loadProducts() {
   try {
-    products = await apiFetch('/api/products');
+    products = await apiFetch('/api/products?all=true');
     renderProductTable();
   } catch (err) {
     console.error(err);
@@ -188,14 +188,14 @@ function renderProductTable() {
     const firstImg = Array.isArray(p.img) ? p.img[0] : p.img;
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td><img src="${firstImg}" alt="${p.name}" style="width:60px;height:60px;object-fit:cover;border-radius:8px;"></td>
-      <td><strong>${p.name}</strong></td>
+      <td><img src="${firstImg}" alt="${p.name}" style="width:60px;height:60px;object-fit:cover;border-radius:8px;${p.is_active ? '' : 'filter: grayscale(1);opacity: 0.5;'}"></td>
+      <td><strong>${p.name}</strong><br><span style="font-size:0.8rem; color:${p.is_active ? '#34C759' : '#FF3B30'};">${p.is_active ? '● Activo' : '● Inactivo'}</span></td>
       <td>${p.category}</td>
       <td>$${parseInt(p.price).toLocaleString('es-MX')}</td>
       <td><strong style="color:var(--nu-primary);">${p.cart_clicks || 0}</strong></td>
       <td>
         <button class="action-btn edit-btn" onclick="openEditProduct('${p.id}')">Editar</button>
-        <button class="action-btn del-btn" onclick="deleteProduct('${p.id}')">Borrar</button>
+        <button class="action-btn del-btn" onclick="toggleProductStatus('${p.id}', ${p.is_active})">${p.is_active ? 'Desactivar' : 'Activar'}</button>
       </td>`;
     tbody.appendChild(tr);
   });
@@ -250,10 +250,10 @@ window.openEditProduct = (id) => {
   productModal.classList.add('show');
 };
 
-window.deleteProduct = async (id) => {
-  if (!confirm('¿Eliminar este producto?')) return;
+window.toggleProductStatus = async (id, currentStatus) => {
+  if (!confirm(`¿Estás seguro de ${currentStatus ? 'desactivar' : 'activar'} este producto?`)) return;
   try {
-    await apiFetch('/api/products', { method: 'DELETE', body: { id } });
+    await apiFetch('/api/products', { method: 'PUT', body: { id, is_active: !currentStatus } });
     await loadProducts();
   } catch (err) { alert(err.message); }
 };
